@@ -18,6 +18,7 @@ end
 --------------------------------------------------------------------------------
 -- Local Variables
 local spSetConfigInt = Spring.SetConfigInt
+local spGetConfigInt = Spring.GetConfigInt
 
 local battleStartDisplay = 1
 local lobbyFullscreen = 1
@@ -39,6 +40,7 @@ local TEXT_OFFSET = 6
 local settingsWindowHandler
 
 local trackbarLobbyMusicVolume
+local trackbarMasterVolume
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -728,6 +730,25 @@ local function GetLobbyTabControls()
 			end
 		}
 	}
+	offset = offset + ITEM_OFFSET
+
+	trackbarMasterVolume = Trackbar:New {
+		x = COMBO_X,
+		y = offset,
+		width  = COMBO_WIDTH,
+		height = 30,
+		value  = spGetConfigInt("snd_volmaster", 50),
+		OnChange = {
+			function(obj, value)
+				if freezeSettings then
+					return
+				end
+				spSetConfigInt("snd_volmaster", value)
+			end
+		}
+	}
+	children[#children + 1] = AddLabel(offset, "Master Volume")
+	children[#children + 1] = trackbarMasterVolume
 	offset = offset + ITEM_OFFSET
 
 	trackbarLobbyMusicVolume = Trackbar:New {
@@ -1756,6 +1777,7 @@ function widget:Update()
 		return
 	end
 
+	trackbarMasterVolume.value = spGetConfigInt("snd_volmaster", trackbarMasterVolume.value)
 	trackbarLobbyMusicVolume.value = WG.Chobby.Configuration.menuMusicVolume
 end
 
