@@ -38,6 +38,8 @@ local TEXT_OFFSET = 6
 
 local settingsWindowHandler
 
+local trackbarLobbyMusicVolume
+
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 -- Utilities
@@ -728,8 +730,7 @@ local function GetLobbyTabControls()
 	}
 	offset = offset + ITEM_OFFSET
 
-	children[#children + 1] = AddLabel(offset, "Menu Music Volume")
-	children[#children + 1] = Trackbar:New {
+	trackbarLobbyMusicVolume = Trackbar:New {
 		x = COMBO_X,
 		y = offset,
 		width  = COMBO_WIDTH,
@@ -747,6 +748,8 @@ local function GetLobbyTabControls()
 			end
 		}
 	}
+	children[#children + 1] = AddLabel(offset, "Menu Music Volume")
+	children[#children + 1] = trackbarLobbyMusicVolume
 	offset = offset + ITEM_OFFSET
 
 	children[#children + 1] = AddLabel(offset, "Notification Volume")
@@ -1523,6 +1526,7 @@ local function MakeTab(name, children)
 	}
 end
 
+local initialized = false
 local function InitializeControls(window)
 	window.OnParent = nil
 
@@ -1576,6 +1580,7 @@ local function InitializeControls(window)
 		tabPanel.tabBar:Select(tabName)
 	end
 
+	initialized = true
 	return externalFunctions
 end
 
@@ -1737,6 +1742,21 @@ function widget:ActivateMenu()
 	end
 	inLobby = true
 	SetLobbyFullscreenMode(WG.Chobby.Configuration.lobby_fullscreen)
+end
+
+local dLastSync = 0
+function widget:Update()
+	dLastSync = dLastSync + 1
+	if dLastSync < 10 then -- Only run this stuff every 10 updates
+		return
+	end
+	dLastSync = 0
+
+	if not (initialized and WG.Chobby and WG.Chobby.Configuration) then
+		return
+	end
+
+	trackbarLobbyMusicVolume.value = WG.Chobby.Configuration.menuMusicVolume
 end
 
 --local oldWidth, oldHeight, oldX, oldY
