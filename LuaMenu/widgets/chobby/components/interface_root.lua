@@ -178,12 +178,12 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 		children = {}
 	}
 
-	local status_volumePanel = Control:New {
-		--y = 0,
-    height = 32,
-		width = 180,
-		right = 225,  --?????
-		top = panelButtonsHeight,
+	local status_volumePanel = Panel:New {
+		y = 5,
+		height = 36,
+		width = 205,
+		right = 10, --225,  --?????
+		--top = panelButtonsHeight,
 		padding = {0, 0, 0, 0},
 		parent = holder_status,
 		children = {
@@ -191,12 +191,13 @@ function GetInterfaceRoot(optionsParent, mainWindowParent, fontFunction)
 		}
 	}
 
-	local status_userWindow = Control:New {
-		y = 0,
-		right = 0,
-		bottom = panelButtonsHeight,
-		width = userStatusWidth,
-		padding = {0, 0, 0, 0},
+	local status_userWindow = Panel:New {
+		--y = 40,
+		height = 30,
+		right = 10,
+		bottom = panelButtonsHeight + 5,
+		width = userStatusWidth+75,
+		padding = {0, 2, 0, 0},
 		parent = holder_status,
 		children = {
 			WG.UserStatusPanel.GetControl(),

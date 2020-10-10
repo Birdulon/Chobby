@@ -47,21 +47,20 @@ local function InitializeControls(window)
 	lblClock = Label:New{name = 'lblClock', caption = 'Clock', width = 45, height = 26, textColor = TEXT_COLOR}
 	trackbarVolume = Trackbar:New{
 		tooltip = 'Volume',
-		height = 16, --12,
-		width = sliderWidth - 25,
+		height = 16,
+		width = sliderWidth,
 		trackColor = TEXT_COLOR,
 		value = spGetConfigInt("snd_volmaster", 50),
 		OnChange = {
 			function(self)
 					spSetConfigInt("snd_volmaster", self.value)
--- 						spSendCommands{"set snd_volmaster " .. self.value}
 			end
 		},
 	}
 	trackbarMusic = Trackbar:New{
 		tooltip = 'Music',
-		height = 16, --12,
-		width = sliderWidth - 25,
+		height = 16,
+		width = sliderWidth,
 		min = 0,
 		max = 1,
 		step = 0.01,
@@ -89,13 +88,13 @@ local function InitializeControls(window)
 -- 		parent = window,
 	}
 	local gridVolume = Grid:New{
-		height = 32, --24,
-		width = sliderWidth, -- - 25,
+		height = '100%',
+		width = sliderWidth + 25,
 		columns = 2,
 		rows = 2,
 		resizeItems = false,
 		margin = {0, 0, 0, 0},
-		padding = {0, 0, 0, 0},  --{0, -2, 0, 0},
+		padding = {0, 0, 0, 0},
 		itemPadding = {0, 0, 0, 0},
 		itemMargin = {0, 0, 0, 0},
 		children = {imageVolume, trackbarVolume, imageMusic, trackbarMusic},
@@ -111,50 +110,11 @@ local function InitializeControls(window)
 		resizeItems = false,
 		autoArrangeV = false,
 		autoArrangeH = false,
-		padding = {0, 2, 0, 0},
-		itemMargin = {1, 0, 0, 0},
-		children = {stackClock, gridVolume},
+		padding = {0, 0, 0, 0},
+		itemMargin = {0, 0, 0, 0},
+		children = {gridVolume, stackClock},
 		parent = window,
 	}
---	local stackChildren = {}
---	local holderWidth = 6
---	if width > 435 then
---		stackChildren[#stackChildren + 1] = stackClock
---		holderWidth = holderWidth + 64
---	end
----- 	stackChildren[#stackChildren + 1] = imageVolume
---	stackChildren[#stackChildren + 1] = gridVolume
---	holderWidth = holderWidth + sliderWidth + 2
---
---	local mainPanel = Panel:New{
---		y = 0,
---		right = 0,
---		bottom = 0,
----- 		clientWidth = holderWidth,
---		backgroundColor = INVISIBLE_COLOR,
---		color = INVISIBLE_COLOR,
---		margin = {0, 0, 0, 0},
---		padding = {0, 0, 3, 6},
---		parent = window,
---
---		children = {
---			StackPanel:New{
---				name = 'stack_main',
---				orientation = 'horizontal',
---				width = '100%',
---				height = '100%',
---				resizeItems = false,
---				padding = {0, 0, 0, 0},
---				itemPadding = {1, 1, 1, 1},
---				itemMargin = {1, 1, 1, 1},
---				autoArrangeV = false,
---				autoArrangeH = false,
---
---				children = stackChildren,
----- 				children = {stackClock, gridVolume},
---			}
---		}
---	}
 end
 
 
